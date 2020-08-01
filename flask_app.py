@@ -36,11 +36,13 @@ def create_session(login, password):
 def check_session(login, session):
     time = requests.get(
         'https://api.vk.com/method/utils.getServerTime?access_token=fb50e915fb50e915fb50e91553fb23a159ffb50fb50e915a474b724a592ee5ec0b5b399&v=5.122').json()['response']
-    try:
-        res = db.session.query(sessions_t).filter_by(login=login).all()[-1]
-    except IndexError:
+    res = db.session.query(sessions_t).filter_by(login=login, session=session).first()
+    if res == None:
         return 0
-    return res.session == session and int(res.time) <= time and not(res.blocked)
+    if int(res.time) + 12 * 3600 < time:
+    	block_session(session)
+    	return 0
+    return 1
 
 
 def block_session(session):
