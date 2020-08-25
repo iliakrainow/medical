@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, make_response
+from flask import Flask, render_template, request, redirect, make_response, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from hashlib import sha256
 import requests
+import json
 
 import db.models.sessions as sessions
 import db.models.patients as patients
@@ -36,12 +37,15 @@ def create_session(login, password):
 def check_session(login, session):
     time = requests.get(
         'https://api.vk.com/method/utils.getServerTime?access_token=fb50e915fb50e915fb50e91553fb23a159ffb50fb50e915a474b724a592ee5ec0b5b399&v=5.122').json()['response']
-    res = db.session.query(sessions_t).filter_by(login=login, session=session).first()
+    res = db.session.query(sessions_t).filter_by(
+        login=login, session=session).first()
     if res == None:
         return 0
     if int(res.time) + 12 * 3600 < time:
-    	block_session(session)
-    	return 0
+        block_session(session)
+        return 0
+    if res.blocked:
+        return 0
     return 1
 
 
@@ -78,10 +82,10 @@ def today():
         if check_session(i, request.cookies.get(i)):
             data = db.session.query(doctors_t).filter_by(login=i).first()
             if data == None:
-            	block_session(request.cookies.get(i))
+                block_session(request.cookies.get(i))
             else:
-	            name = data.name + ' ' + data.middle_name
-	            break
+                name = data.name + ' ' + data.middle_name
+                break
         else:
             block_session(request.cookies.get(i))
     else:
@@ -89,6 +93,160 @@ def today():
     info = requests.get(
         'https://api.vk.com/method/utils.getServerTime?access_token=fb50e915fb50e915fb50e91553fb23a159ffb50fb50e915a474b724a592ee5ec0b5b399&v=5.122').json()
     date = datetime.utcfromtimestamp(info['response']).strftime('%d.%m.%Y')
-    return render_template('today.html', date=date, name=name)
+    today = ''
+    counter = 2
+    try:
+        time = json.loads(data.timetable)[date]
+    except:
+        time = {}
+    for i in time.keys():
+        patient = db.session.query(patients_t).filter_by(
+            login=time[i][0]).first()
+        if patient != None:
+            patient_name = patient.surname + ' ' + patient.name
+            today += f'<a href="/patient?login={time[i][0]}"><button title="{time[i][1]}" class="btn btn-success btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: {counter}3%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">{i} | <i>{patient_name}</i></button></a>'
+            counter += 1
+    if counter == 2:
+        today += '<button class="btn btn-success btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: 23%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">Нет пациентов, расписания.</button>'
+    return render_template('today.html', date=date, name=name, today=today)
 
+
+@app.route("/patient")
+def patient():
+    for i in list(request.cookies):
+        if check_session(i, request.cookies.get(i)):
+            data = db.session.query(doctors_t).filter_by(login=i).first()
+            if data == None:
+                block_session(request.cookies.get(i))
+            else:
+                name = data.name + ' ' + data.middle_name
+                break
+        else:
+            block_session(request.cookies.get(i))
+    else:
+        return redirect('/login')
+    login = request.args.get('login')
+    patient = db.session.query(patients_t).filter_by(login=login).first()
+    return render_template('patient.html', login=login, surname=patient.surname, name=patient.name + ' ' + patient.middle_name, cab=patient.cab, status=patient.status, sex=patient.sex, dr=patient.dr)
+
+
+@app.route("/allergy", methods=['GET', 'POST'])
+def allergy():
+    if request.method == 'GET':
+        for i in list(request.cookies):
+            if check_session(i, request.cookies.get(i)):
+                break
+            else:
+                block_session(request.cookies.get(i))
+        else:
+            return redirect('/login')
+        login = request.args.get('login')
+        patient = db.session.query(patients_t).filter_by(login=login).first()
+
+        other = ''
+        counter = 1
+        if patient.products != '[]':
+            for i in json.loads(patient.products):
+                other += f'<h1 class="text-justify" style="position: absolute;color: rgb(255,255,255);font-family: Ubuntu, sans-serif;margin-top: 5%;padding-top: {counter}%;">{i}</h1>'
+                counter += 5
+        else:
+            other = '<h1 class="text-justify" style="position: absolute;color: rgb(255,255,255);font-family: Ubuntu, sans-serif;margin-top: 5%;padding-top: 1%;">Нет</h1>'
+
+        medications = ''
+        counter = 1
+        if patient.medications != '[]':
+            for i in json.loads(patient.medications):
+                medications += f'<h1 class="text-justify" style="position: absolute;color: rgb(255,255,255);font-family: Ubuntu, sans-serif;margin-top: 5%;padding-top: {counter}%;">{i}</h1>'
+                counter += 5
+        else:
+            medications = '<h1 class="text-justify" style="position: absolute;color: rgb(255,255,255);font-family: Ubuntu, sans-serif;margin-top: 5%;padding-top: 1%;">Нет</h1>'
+
+        return render_template('allergy.html', other=other, medications=medications, login=login)
+    else:
+        login = request.args.get('login')
+        patient = db.session.query(patients_t).filter_by(login=login).first()
+        if request.form['name'] != '':
+            if request.form['allergy_type'] == 'med':
+                data = json.loads(patient.medications)
+                data.append(request.form['name'])
+                data = json.dumps(data)
+                db.session.query(patients_t).filter_by(login=login).update({'medications': data})
+                db.session.commit()
+            else:
+                data = json.loads(patient.products)
+                data.append(request.form['name'])
+                data = json.dumps(data)
+                db.session.query(patients_t).filter_by(login=login).update({'products': data})
+                db.session.commit()
+            return redirect(f'/allergy?login={login}')
+
+
+@app.route("/documents")
+def documents():
+    for i in list(request.cookies):
+        if check_session(i, request.cookies.get(i)):
+            break
+        else:
+            block_session(request.cookies.get(i))
+    else:
+        return redirect('/login')
+    login = request.args.get('login')
+    patient = db.session.query(patients_t).filter_by(login=login).first()
+    table = ''
+    for i in json.loads(patient.docs):
+	    table += f'''<tr>
+	                <td style="background-color: #7fe68f;"><a href="{url_for('static', filename='docs/' + i["name"])}"><i class="fa fa-eye" style="font-size: 48px;"></i></a></td>
+	                <td>{i["name"]}</td>
+	                <td>{i["type"]}</td>
+	                <td>{i["author"]}</td>
+	                <td>{i["time"]}</td>
+	            </tr>'''
+    return render_template('documents.html', name=patient.surname + ' ' + patient.name, table=table, login=login)
+
+@app.route("/upload_document", methods=['GET', 'POST'])
+def upload_document():
+    if request.method == 'GET':
+        for i in list(request.cookies):
+            if check_session(i, request.cookies.get(i)):
+                break
+            else:
+                block_session(request.cookies.get(i))
+        else:
+            return redirect('/login')
+
+        return render_template('upload_document.html')
+    else:
+        for i in list(request.cookies):
+            if check_session(i, request.cookies.get(i)):
+                data = db.session.query(doctors_t).filter_by(login=i).first()
+                if data == None:
+                    block_session(request.cookies.get(i))
+                else:
+                    author = data.surname +  ' ' + data.name + ' ' + data.middle_name
+                    break
+            else:
+                block_session(request.cookies.get(i))
+        else:
+            return redirect('/login')
+
+
+        ast = open('static/docs/' + request.files['file'].filename, 'wb')
+        ast.write(request.files['file'].read())
+        ast.close()
+
+
+        info = requests.get(
+        'https://api.vk.com/method/utils.getServerTime?access_token=fb50e915fb50e915fb50e91553fb23a159ffb50fb50e915a474b724a592ee5ec0b5b399&v=5.122').json()
+        time = datetime.utcfromtimestamp(info['response']).strftime('%d.%m.%Y %H:%M')
+        name = request.files['file'].filename
+        typ = request.form['type']
+
+        login = request.args.get('login')
+        patient = db.session.query(patients_t).filter_by(login=login).first()
+
+        docs = json.loads(patient.docs)
+        docs.append({"name": name, "type": typ, "author": author, "time": time})
+        db.session.query(patients_t).filter_by(login=login).update({'docs': json.dumps(docs)})
+        db.session.commit()
+        return redirect('/documents?login=' + login)
 app.run()

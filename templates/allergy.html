@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="d-flex flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+        <div class="d-flex justify-content-xl-start align-items-xl-end" style="position: absolute;width: 100%;"><button class="btn btn-danger active btn-block border rounded-0" type="button" style="filter: blur(35px);opacity: 1;height: 580px;width: 50%;"></button><button class="btn btn-success active btn-block border rounded-0" type="button" style="width: 50%;height: 580px;filter: blur(35px);"></button></div>
+        <div
+            class="d-inline-flex d-xl-flex flex-row align-items-xl-center" style="width: 100%;">
+            <div style="margin-left: 48px;margin-top: 0px;">
+                <h1 class="text-center" style="position: absolute;color: rgb(255,255,255);font-family: Ubuntu, sans-serif;">Препараты</h1>
+                {{medications|safe}}
+            </div>
+            <div style="margin-left: 50%;">
+                <h1 class="text-center" style="position: absolute;color: rgb(255,255,255);font-family: Ubuntu, sans-serif;">Остальное</h1>
+                {{other|safe}}
+            </div>
+    </div><button class="btn btn-primary" type="button" style="padding-top: 395px;margin-top: 585px;" disabled=""></button>
+    <h1 style="position: absolute;margin-top: 598px;margin-left: 38%;font-family: Ubuntu, sans-serif;font-size: 64px;">Добавить</h1>
+    <form class="d-flex flex-column" style="position: absolute;margin-top: 685px;width: 100%;" method="post">
+        <div class="d-inline-flex flex-row">
+            <h1 style="position: absolute;font-family: Ubuntu, sans-serif;font-size: 40px;padding-top: 2%;">На что аллергия?</h1><input class="form-control" type="text" name="name" style="position: absolute;width: 50%;margin-left: 50%;font-size: 28px;margin-top: 2%;"></div>
+        <div class="d-inline-flex flex-row" style="margin-top: 3%;">
+            <div class="d-inline-flex flex-row" style="margin-top: 69px;"><input type="radio" style="width: 80px;height: 30px;margin-top: 3%;" name="allergy_type" value="med">
+                <h1 style="font-family: Ubuntu, sans-serif;">Препараты</h1>
+            </div>
+            <div class="d-inline-flex flex-row" style="margin-top: 69px;margin-left: 30%;"><input type="radio" style="width: 80px;height: 30px;margin-top: 3%;" name="allergy_type" value="other" checked="true">
+                <h1 style="font-family: Ubuntu, sans-serif;">Другое</h1>
+            </div>
+        </div><button class="btn btn-primary" type="submit" style="font-family: Ubuntu, sans-serif;font-size: 27px;width: 100%;padding-top: 8px;margin-top: 2%;">Подтвердить</button></form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

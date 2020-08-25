@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="margin-left: 8px;">
+    <div class="d-inline-flex">
+        <h1 style="font-family: Ubuntu, sans-serif;font-size: 30px;">Документы пациента: {{name}}</h1>
+    </div>
+    <h5 style="font-family: Ubuntu, sans-serif;color: rgb(255,57,117);width: 1000px;">Это частная информация, ее разглашение без согласия пациента карается законом.</h5>
+    <div class="d-inline-flex"><a href="/patient?login={{login}}"><button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center" type="button" style="font-family: Ubuntu, sans-serif;font-size: 20px;padding-left: 22px;"><i class="fa fa-arrow-left"></i>&nbsp; Назад</button></a>
+        <a
+            href="/upload_document" style="padding-left: 7px;"><button class="btn btn-outline-primary" type="button" style="font-family: Ubuntu, sans-serif;font-size: 20px;"><i class="fa fa-upload" style="font-size: 20px;"></i>&nbsp;Загрузить</button></a>
+    </div>
+    <div class="table-responsive" style="font-family: Ubuntu, sans-serif;">
+        <table class="table">
+            <thead style="background-color: #7fe68f;">
+                <tr>
+                    <th style="width: 78px;"></th>
+                    <th style="width: 249px;">Название</th>
+                    <th style="width: 152px;">Тип документа</th>
+                    <th style="width: 279px;">Автор</th>
+                    <th>Время</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{table|safe}}
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

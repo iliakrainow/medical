@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="d-inline-flex">
+        <div>
+            <h1 class="display-4" style="font-family: Ubuntu, sans-serif;">Информация о пациенте</h1>
+            <h5 style="font-family: Ubuntu, sans-serif;color: rgb(255,57,117);">Это частная информация, ее разглашение без согласия пациента карается законом.</h5>
+        </div><a href="/today"><button class="btn btn-primary" type="button" style="font-family: Ubuntu, sans-serif;font-size: 20px;margin-left: 290px;"><i class="fa fa-arrow-left"></i>&nbsp; Назад</button></a></div>
+    <div>
+        <h1 class="display-4" style="position: absolute;">{{surname}}</h1>
+        <h1 class="display-4" style="position: absolute;padding-top: 5%;">{{name}}</h1>
+        <h1 style="position: absolute;padding-top: 12%;font-family: Ubuntu, sans-serif;">Палата: {{cab}}&nbsp;Состояние: {{status}}<br><br></h1>
+        <h1 style="position: absolute;padding-top: 17%;font-family: Ubuntu, sans-serif;">Пол: {{sex}}&nbsp; &nbsp; &nbsp; Дата рождения: {{dr}}</h1><button class="btn btn-outline-primary" type="button" style="padding: 127px;filter: blur(0px) brightness(100%) grayscale(0%) saturate(100%) sepia(0%);padding-left: 80%;" disabled=""></button></div>
+    <div
+        style="padding-top: 2%;"><button class="btn btn-success border rounded-0" type="button" style="padding: 30px;font-family: Ubuntu, sans-serif;font-size: 29px;">История процедур</button><a href="/documents?login={{login}}"><button class="btn btn-warning border rounded-0" type="button" style="padding: 30px;font-family: Ubuntu, sans-serif;font-size: 29px;">Документы. Добавить, просмотреть</button></a>
+        <a
+            href="/allergy?login={{login}}"><button class="btn btn-danger border rounded-0" type="button" style="padding: 30px;font-family: Ubuntu, sans-serif;font-size: 29px;">Аллергии</button></a>
+            </div>
+            <div style="margin-top: 2%;">
+                <h1 class="display-4" style="position: absolute;font-family: Ubuntu, sans-serif;">Дополнительная информация</h1>
+                <h1 class="display-4" style="position: absolute;margin-top: 5%;">{{surname}}</h1><button class="btn btn-outline-primary" type="button" style="padding: 127px;filter: blur(0px) brightness(100%) grayscale(0%) saturate(100%) sepia(0%);padding-left: 80%;" disabled=""></button></div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

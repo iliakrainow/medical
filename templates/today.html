@@ -12,10 +12,7 @@
         <div>
             <button class="btn btn-outline-light" type="button" style="position: absolute;margin-top: 151px;margin-right: 0;margin-bottom: 0;margin-left: 5%;padding: 222px;height: 95%;padding-right: 70%;" disabled=""></button>
             <h1 class="display-4" style="position: absolute;margin-top: 149px;margin-left: 6%;font-family: Ubuntu, sans-serif;color: rgb(255,255,255);">Сегодня {{date}}</h1>
-            <button class="btn btn-success btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: 23%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">12 : 00 | Константинопольский Константин</button>
-            <button class="btn btn-dark btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: 33%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">12 : 30 - 13 : 00 | Пусто, возможна запись</button>
-            <button class="btn btn-dark btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: 43%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">12 : 30 - 13 : 00 | Пусто, возможна запись</button>
-            <button class="btn btn-dark btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: 53%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">12 : 30 - 13 : 00 | Пусто, возможна запись</button>
+            {{today|safe}}
         </div>
         <div style="position: absolute;padding-top: 5;padding-left: 88%;font-family: Ubuntu, sans-serif;">
             <h5 style="color: rgb(255,255,255);">Это не Вы? <a href='/login'>Выйти</a></h5>
