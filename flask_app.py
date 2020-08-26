@@ -100,34 +100,75 @@ def today():
     except:
         time = {}
     for i in time.keys():
-        patient = db.session.query(patients_t).filter_by(
-            login=time[i][0]).first()
-        if patient != None:
-            patient_name = patient.surname + ' ' + patient.name
-            today += f'<a href="/patient?login={time[i][0]}"><button title="{time[i][1]}" class="btn btn-success btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: {counter}3%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">{i} | <i>{patient_name}</i></button></a>'
-            counter += 1
+    	if len(time[i]) == 2:
+	        patient = db.session.query(patients_t).filter_by(
+	            login=time[i][0]).first()
+	        if patient != None:
+	            patient_name = patient.surname + ' ' + patient.name
+	            today += f'<a href="/patient?login={time[i][0]}&work={time[i][1]}"><button title="{time[i][1]}" class="btn btn-success btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: {counter}3%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">{i} | <i>{patient_name}</i></button></a>'
+	            counter += 1
     if counter == 2:
         today += '<button class="btn btn-success btn-lg" type="button" style="opacity: 0.90;position: absolute;margin-top: 23%;font-family: Ubuntu, sans-serif;font-size: 43px;margin-left: 6%;">Нет пациентов, расписания.</button>'
     return render_template('today.html', date=date, name=name, today=today)
 
 
-@app.route("/patient")
+@app.route("/patient", methods=['GET', 'POST'])
 def patient():
-    for i in list(request.cookies):
-        if check_session(i, request.cookies.get(i)):
-            data = db.session.query(doctors_t).filter_by(login=i).first()
-            if data == None:
-                block_session(request.cookies.get(i))
+    if request.method == 'GET':
+        for i in list(request.cookies):
+            if check_session(i, request.cookies.get(i)):
+                data = db.session.query(doctors_t).filter_by(login=i).first()
+                if data == None:
+                    block_session(request.cookies.get(i))
+                else:
+                    name = data.name + ' ' + data.middle_name
+                    break
             else:
-                name = data.name + ' ' + data.middle_name
-                break
+                block_session(request.cookies.get(i))
         else:
-            block_session(request.cookies.get(i))
+	        return redirect('/login')
+        login = request.args.get('login')
+        patient = db.session.query(patients_t).filter_by(login=login).first()
+        return render_template('patient.html', login=login, work=request.args.get('work'), surname=patient.surname, name=patient.name + ' ' + patient.middle_name, cab=patient.cab, status=patient.status, sex=patient.sex, dr=patient.dr)
     else:
-        return redirect('/login')
-    login = request.args.get('login')
-    patient = db.session.query(patients_t).filter_by(login=login).first()
-    return render_template('patient.html', login=login, surname=patient.surname, name=patient.name + ' ' + patient.middle_name, cab=patient.cab, status=patient.status, sex=patient.sex, dr=patient.dr)
+        login = request.args.get('login')
+        for i in list(request.cookies):
+            if check_session(i, request.cookies.get(i)):
+	            data = db.session.query(doctors_t).filter_by(login=i).first()
+	            if data == None:
+	                block_session(request.cookies.get(i))
+	            else:
+	                doctor = data.login
+	                timetable = json.loads(data.timetable)
+	                break
+            else:
+                block_session(request.cookies.get(i))
+        else:
+            return redirect('/login')
+
+        info = requests.get(
+        'https://api.vk.com/method/utils.getServerTime?access_token=fb50e915fb50e915fb50e91553fb23a159ffb50fb50e915a474b724a592ee5ec0b5b399&v=5.122').json()
+        time = datetime.utcfromtimestamp(info['response']).strftime('%d.%m.%Y')
+        time_t = timetable[time]
+        for i in time_t.keys():
+            if time_t[i][0] == int(login):
+                data = time_t[i]
+                if int(request.form['patient']):
+                    data.append('Пришел')
+                    data.append(time)
+                    break
+                else:
+                    data.append('Не пришел')
+                    data.append(time)
+                    break
+
+        db.session.query(doctors_t).filter_by(login=doctor).update({'timetable': json.dumps(timetable)})
+        db.session.commit()
+        history = json.loads(db.session.query(patients_t).filter_by(login=login).first().history)
+        history.append(data)
+        db.session.query(patients_t).filter_by(login=login).update({'history': json.dumps(history)})
+        db.session.commit()
+        return redirect('today')
 
 
 @app.route("/allergy", methods=['GET', 'POST'])
@@ -249,4 +290,43 @@ def upload_document():
         db.session.query(patients_t).filter_by(login=login).update({'docs': json.dumps(docs)})
         db.session.commit()
         return redirect('/documents?login=' + login)
+
+
+@app.route("/history")
+def history():
+    for i in list(request.cookies):
+        if check_session(i, request.cookies.get(i)):
+            break
+        else:
+            block_session(request.cookies.get(i))
+    else:
+        return redirect('/login')
+    login = request.args.get('login')
+    patient = db.session.query(patients_t).filter_by(login=login).first()
+    table = ''
+    for i in json.loads(patient.history):
+        doctor = db.session.query(patients_t).filter_by(login=login).first()
+        if i[2] == 'Пришел':
+            table += f'''<tr>
+                    <td>{i[1]}</td>
+                    <td>{doctor.surname + ' ' + doctor.name + ' ' + doctor.middle_name}</td>
+                    <td>{i[-1]}</td>
+                    <td style="background-color: #a6ff7c;">Пришел</td>
+                </tr>'''
+        elif i[2] == 'Не пришел':
+            table += f'''<tr>
+                    <td>{i[1]}</td>
+                    <td>{doctor.surname + ' ' + doctor.name + ' ' + doctor.middle_name}</td>
+                    <td>{i[-1]}</td>
+                    <td style="background-color: #ff7c7c;">Не пришел</td>
+                </tr>'''
+        else:
+            table += f'''<tr>
+                    <td>{i[1]}</td>
+                    <td>{doctor.surname + ' ' + doctor.name + ' ' + doctor.middle_name}</td>
+                    <td>{i[-1]}</td>
+                    <td style="background-color: #7c91ff;">Зарегестрирован</td>
+                </tr>'''
+    return render_template('history.html', name=patient.surname + ' ' + patient.name, table=table, login=login)
+
 app.run()
