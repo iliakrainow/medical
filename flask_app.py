@@ -8,6 +8,7 @@ import json
 import db.models.sessions as sessions
 import db.models.patients as patients
 import db.models.doctors as doctors
+import db.models.registr as registr
 import db.models.logins as logins
 
 
@@ -19,6 +20,7 @@ sessions_t = sessions.config(db)
 patients_t = patients.config(db)
 doctors_t = doctors.config(db)
 logins_t = logins.config(db)
+registr_t = registr.config(db)
 
 db.create_all()
 
@@ -45,6 +47,11 @@ def check_session(login, session):
         block_session(session)
         return 0
     if res.blocked:
+        return 0
+    res_login = db.session.query(logins_t).filter_by(
+        login=login).first()
+    pre = res_login.hashed_password + str(res.time)
+    if sha256(pre.encode('utf-8')).hexdigest() != session:
         return 0
     return 1
 
@@ -75,6 +82,22 @@ def login():
         else:
             return redirect('/login')
 
+@app.route("/login_reg", methods=['GET', 'POST'])
+def login_reg():
+    if request.method == 'GET':
+        for i in list(request.cookies):
+            block_session(request.cookies.get(i))
+        return render_template('login.html')
+    else:
+        result = db.session.query(logins_t).filter_by(
+            login=str(request.form['login'])).first()
+        if sha256(request.form['password'].encode('utf-8')).hexdigest() == result.hashed_password:
+            res = make_response(redirect('/reg'))
+            res.set_cookie(result.login, create_session(
+                result.login, result.hashed_password), max_age=12 * 3600)
+            return res
+        else:
+            return redirect('/login_reg')
 
 @app.route("/today")
 def today():
@@ -129,7 +152,8 @@ def patient():
 	        return redirect('/login')
         login = request.args.get('login')
         patient = db.session.query(patients_t).filter_by(login=login).first()
-        return render_template('patient.html', login=login, work=request.args.get('work'), surname=patient.surname, name=patient.name + ' ' + patient.middle_name, cab=patient.cab, status=patient.status, sex=patient.sex, dr=patient.dr)
+
+        return render_template('patient.html', login=login, work=request.args.get('work'), surname=patient.surname, name=patient.name + ' ' + patient.middle_name, cab=patient.cab, status=patient.status, sex=patient.sex, dr=patient.dr, additional=patient.additional)
     else:
         login = request.args.get('login')
         for i in list(request.cookies):
@@ -320,13 +344,63 @@ def history():
                     <td>{i[-1]}</td>
                     <td style="background-color: #ff7c7c;">Не пришел</td>
                 </tr>'''
-        else:
-            table += f'''<tr>
-                    <td>{i[1]}</td>
-                    <td>{doctor.surname + ' ' + doctor.name + ' ' + doctor.middle_name}</td>
-                    <td>{i[-1]}</td>
-                    <td style="background-color: #7c91ff;">Зарегестрирован</td>
-                </tr>'''
     return render_template('history.html', name=patient.surname + ' ' + patient.name, table=table, login=login)
+
+@app.route("/reg")
+def reg():
+    for i in list(request.cookies):
+        if check_session(i, request.cookies.get(i)):
+            data = db.session.query(registr_t).filter_by(login=i).first()
+            if data == None:
+                block_session(request.cookies.get(i))
+            else:
+                name = data.name + ' ' + data.middle_name
+                break
+        else:
+            block_session(request.cookies.get(i))
+    else:
+        return redirect('/login_reg')
+    return render_template('reg.html', name=name)
+
+@app.route("/see", methods=['GET', 'POST'])
+def see():
+	for i in list(request.cookies):
+		if check_session(i, request.cookies.get(i)):
+			data = db.session.query(registr_t).filter_by(login=i).first()
+			if data == None:
+				block_session(request.cookies.get(i))
+			else:
+				name = data.name + ' ' + data.middle_name
+				break
+		else:
+			block_session(request.cookies.get(i))
+	else:
+		return redirect('/login_reg')
+	if request.method == 'GET':
+		table = '<span class="badge badge-primary" style="font-family: Ubuntu, sans-serif;font-size: 30px;">Для получения информации введите ФИО пациента<br /></span>'
+		return render_template('see.html', table=table)
+	else:
+		if request.form['type'] == 'search':
+			name = request.form['name'].split()
+			data = db.session.query(patients_t).filter_by(surname=name[0].capitalize(), name=name[1].capitalize(), middle_name=name[2].capitalize()).all()
+			table = ''
+			for i in data:
+				table += f'''<tr>
+					<td style="background-color: #7fe68f;">{name[0].capitalize()} {name[1].capitalize()} {name[2].capitalize()}</td>
+						<td>
+							<h6>Для открытия страницы введите дату рождения пациента. (Это необходимо для безопасности информации)</h6><i class="la la-birthday-cake" style="font-size: 31px;"></i>
+							<form class="d-inline-flex" style="margin-left: 4px;" method="post"><input type="hidden" class="form-control" name="type" value="patient" /><input type="hidden" class="form-control" name="login" value="{i.login}" /><input class="form-control" type="date" style="font-family: Ubuntu, sans-serif;font-size: 22px;" name="date" />
+								<button class="btn btn-primary" type="submit" style="margin-left: 7px;"><i class="fa fa-eye" style="font-size: 24px;margin-top: 2px;"></i></button>
+							</form>
+						</td>
+					</tr>'''
+			return render_template('see.html', table=table)
+		else:
+			login = request.form['login']
+			patient = db.session.query(patients_t).filter_by(login=login).first()
+			if '.'.join(reversed(request.form['date'].split('-'))) == patient.dr:
+				return render_template('patient_reg.html', login=login, work=request.args.get('work'), surname=patient.surname, name=patient.name + ' ' + patient.middle_name, cab=patient.cab, status=patient.status, sex=patient.sex, dr=patient.dr, additional=patient.additional)
+
+	
 
 app.run()

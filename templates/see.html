@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="margin-left: 5px;">
+    <form method="post"><input class="form-control" type="hidden" name="type" value="search">
+        <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text"><i class="material-icons" style="font-size: 31px;">search</i></span></div><input type="text" class="form-control" style="font-size: 31px;font-family: Ubuntu, sans-serif;" name="name" />
+            <div class="input-group-append"><button class="btn btn-primary" type="submit" style="font-family: Ubuntu, sans-serif;font-size: 31px;">OK</button></div>
+        </div>
+    </form>
+    <div class="table-responsive" style="font-family: Ubuntu, sans-serif;margin-top: 18px;">
+        <table class="table">
+            <thead style="background-color: #7fe68f;">
+                <tr>
+                    <th style="width: 249px;">Имя</th>
+                    <th>Открыть страницу</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{table|safe}}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

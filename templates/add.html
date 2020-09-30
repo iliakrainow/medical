@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="margin-left: 5px;">
+    <form method="post"><input class="form-control" type="hidden" name="type" value="search">
+        <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text"><i class="material-icons" style="font-size: 31px;">search</i></span></div><input class="form-control" type="text" style="font-size: 31px;font-family: Ubuntu, sans-serif;">
+            <div class="input-group-append"><button class="btn btn-primary" type="submit" style="font-family: Ubuntu, sans-serif;font-size: 31px;">OK</button></div>
+        </div>
+    </form>
+    <div class="modal fade" role="dialog" tabindex="-1" id="new">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(112,230,139);">
+                    <h4 class="modal-title" style="font-family: Ubuntu, sans-serif;"><i class="fa fa-plus"></i>&nbsp; Новый пациент</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="card">
+                            <div class="card-header" style="background-color: rgb(112,230,139);">
+                                <h5 class="mb-0" style="font-family: Ubuntu, sans-serif;"><i class="fa fa-user"></i>&nbsp; ФИО</h5>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <h4 style="font-family: Ubuntu, sans-serif;">Фамилия</h4><input class="form-control" type="text" name="surname" required="" style="font-family: Ubuntu, sans-serif;"></div>
+                                <div style="margin-top: 5%;">
+                                    <h4 style="font-family: Ubuntu, sans-serif;">Имя</h4><input class="form-control" type="text" name="name" required="" style="font-family: Ubuntu, sans-serif;"></div>
+                                <div style="margin-top: 5%;">
+                                    <h4 style="font-family: Ubuntu, sans-serif;">Отчество</h4><input class="form-control" type="text" name="middle_name" style="font-family: Ubuntu, sans-serif;"></div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top: 2%;">
+                            <div class="card-header" style="background-color: rgb(112,230,139);">
+                                <h4 style="font-family: Ubuntu, sans-serif;"><i class="fas fa-passport"></i>&nbsp; Паспортные данные</h4>
+                            </div>
+                            <div class="card-body">
+                                <h5 style="font-family: Ubuntu, sans-serif;">Cерия&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Номер</h5>
+                                <div class="d-inline-flex"><input class="form-control" type="text" name="passport_1" maxlength="2" style="width: 56px;font-family: Ubuntu, sans-serif;font-size: 25px;" required="" cc2="" event="" inputmode="numeric"><input class="form-control" type="text"
+                                        name="passport_2" maxlength="2" style="width: 56px;margin-left: 20%;font-family: Ubuntu, sans-serif;font-size: 25px;" required="" inputmode="numeric"><input class="form-control" type="text" name="passport_3" maxlength="6"
+                                        style="margin-left: 20%;font-family: Ubuntu, sans-serif;font-size: 25px;" required="" inputmode="numeric"></div>
+                                <div style="padding-top: 5%;">
+                                    <h5 style="font-family: Ubuntu, sans-serif;">Паспорт выдан</h5><input class="form-control" type="text" style="font-family: Ubuntu, sans-serif;" name="passport_ issued" required=""></div>
+                                <div style="padding-top: 5%;">
+                                    <h5 style="font-family: Ubuntu, sans-serif;">Дата выдачи</h5><input class="form-control" type="date" style="font-family: Ubuntu, sans-serif;font-size: 22px;" name=" issued_date" required=""></div>
+                                <div style="margin-top: 5%;">
+                                    <h4 style="font-family: Ubuntu, sans-serif;">Пол</h4>
+                                    <div class="d-inline-flex">
+                                        <div class="form-check form-check-inline" style="font-size: 18px;"><input class="form-check-input" type="radio" id="formCheck-1" name="sex" value="male" required=""><label class="form-check-label" for="formCheck-1" style="font-family: Ubuntu, sans-serif;">Мужской</label></div>
+                                        <div
+                                            class="form-check form-check-inline" style="font-size: 18px;margin-left: 20%;"><input class="form-check-input" type="radio" id="formCheck-1" name="sex" value="female" required=""><label class="form-check-label" for="formCheck-1" style="font-family: Ubuntu, sans-serif;">Женский</label></div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 5%;">
+                                <h4 style="font-family: Ubuntu, sans-serif;">День Рождения</h4><input class="form-control" type="date" style="font-family: Ubuntu, sans-serif;font-size: 22px;" name="dr" required=""></div>
+                        </div>
+                </div>
+                <div class="card" style="margin-top: 2%;">
+                    <div class="card-header" style="background-color: rgb(112,230,139);">
+                        <h5 class="mb-0" style="font-family: Ubuntu, sans-serif;"><i class="fa fa-thumbs-down"></i>&nbsp; Аллергии</h5>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-top: 5%;">
+                            <h4 style="font-family: Ubuntu, sans-serif;">Аллергия на ПРЕПАРАТЫ (через пробел - запятая)</h4><input class="form-control" type="text" name="medications"></div>
+                        <div style="margin-top: 5%;">
+                            <h4 style="font-family: Ubuntu, sans-serif;">Аллергия на ПРОДУКТЫ (через пробел - запятая)</h4><input class="form-control" type="text" name="products"></div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 2%;">
+                    <div class="card-header" style="background-color: rgb(112,230,139);">
+                        <h5 class="mb-0" style="font-family: Ubuntu, sans-serif;"><i class="fa fa-phone"></i>&nbsp; Связь</h5>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-top: 5%;">
+                            <h4 style="font-family: Ubuntu, sans-serif;">Номера родственников и их имена</h4><input class="form-control" type="text" name="additional" required=""></div>
+                        <div style="margin-top: 5%;">
+                            <h4 style="font-family: Ubuntu, sans-serif;">Email</h4><input class="form-control" type="text" name="additional" required=""></div>
+                    </div>
+                </div><button class="btn btn-success" type="submit" style="font-family: Ubuntu, sans-serif;margin-top: 5%;width: 100%;"><i class="fa fa-handshake-o"></i>&nbsp; &nbsp;OK</button></form>
+            </div>
+        </div>
+    </div>
+    </div><button class="btn btn-primary" data-toggle="modal" data-target="#new" type="button" style="font-family: Ubuntu, sans-serif;font-size: 18px;margin-top: 2%;"><i class="fa fa-plus"></i>&nbsp; Новый пациент</button>
+    <div class="table-responsive" style="font-family: Ubuntu, sans-serif;margin-top: 18px;">
+        <table class="table">
+            <thead style="background-color: #7fe68f;">
+                <tr>
+                    <th style="width: 249px;">Имя</th>
+                    <th>Зарегестрировать</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="background-color: #7fe68f;">Константинопольский Константин Константинович</td>
+                    <td>
+                        <h6>Для регестрации пациента введите его дату рождения. (Это необходимо для безопасности информации)</h6><i class="la la-birthday-cake" style="font-size: 31px;"></i>
+                        <form class="d-inline-flex" style="margin-left: 4px;" method="post"><input class="form-control" type="hidden" name="type"><input class="form-control" type="hidden" name="login" value="2"><input class="form-control" type="date" style="font-family: Ubuntu, sans-serif;font-size: 22px;" name="date">
+                            <button
+                                class="btn btn-primary" type="submit" style="margin-left: 7px;"><i class="fa fa-eye" style="font-size: 24px;margin-top: 2px;"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body class="d-lg-flex justify-content-lg-center">
+    <div class="card text-center" style="width: 922px;margin-top: 2%;">
+        <div class="card-header" style="background-color: rgb(112,230,139);">
+            <h1 class="text-center" style="font-family: Ubuntu, sans-serif;">Записать пациента: {{name}}</h1>
+        </div>
+        <div class="card-body">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0" style="font-family: Ubuntu, sans-serif;font-size: 28px;">Куда записать?<br></h5>
+                </div>
+                <div class="card-body">
+                    <form method="post"><input class="form-control" type="hidden" name="type" value="search">
+                        <div class="d-inline-flex">
+                            <div class="text-right d-flex flex-column">
+                                <h3>Специализация врача:<br></h3>
+                                <h3 style="margin-top: 5%;">Дата:<br></h3>
+                                <h3 style="margin-top: 5%;">Пол врача:</h3>
+                            </div>
+                            <div class="d-flex flex-column"><input class="form-control" type="text" style="width: 323px;margin-left: 22px;font-size: 21px;font-family: Ubuntu, sans-serif;" name="speciality" required=""><input class="form-control" type="date" style="margin-top: 2%;width: 323px;margin-left: 22px;font-family: Ubuntu, sans-serif;font-size: 21px;"
+                                    name="date" required="">
+                                <div class="d-inline-flex">
+                                    <div class="form-check form-check-inline" style="font-family: Ubuntu, sans-serif;font-size: 27px;margin-left: 22px;margin-top: 4%;"><input class="form-check-input" type="radio" id="formCheck-1" style="width: 20px;height: 20px;" name="sex" value="male"><label class="form-check-label" for="formCheck-1" style="width: 114px;font-size: 21px;">Мужчина</label></div>
+                                    <div
+                                        class="form-check form-check-inline" style="margin-top: 4%;font-family: Ubuntu, sans-serif;font-size: 27px;margin-left: 22px;"><input class="form-check-input" type="radio" id="formCheck-2" style="width: 20px;height: 20px;" name="sex" value="female"><label class="form-check-label" for="formCheck-2" style="width: 114px;font-size: 21px;">Женщина</label></div>
+                                <div
+                                    class="form-check form-check-inline" style="margin-top: 4%;font-family: Ubuntu, sans-serif;font-size: 27px;margin-left: 22px;"><input class="form-check-input" type="radio" id="formCheck-3" style="width: 20px;height: 20px;" checked="" name="sex" value="no"><label class="form-check-label" for="formCheck-3" style="width: 114px;font-size: 21px;">Не важно</label></div>
+                        </div>
+                </div>
+            </div><button class="btn btn-outline-success" type="submit" style="font-family: Ubuntu, sans-serif;font-size: 27px;margin-top: 2%;"><i class="fa fa-search"></i>&nbsp; Найти!</button></form>
+        </div>
+    </div>
+    <div class="table-responsive" style="margin-top: 2%;font-family: Ubuntu, sans-serif;">
+        <table class="table">
+            <thead style="background-color: rgb(112,230,139);">
+                <tr>
+                    <th></th>
+                    <th>Время</th>
+                    <th>Имя врача</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>
+                        <form><input class="form-control" type="datetime-local" style="margin-top: 2%;width: 323px;margin-left: 22px;font-family: Ubuntu, sans-serif;font-size: 21px;" name="date" value="2021-05-14T15:45:00" readonly=""></form>
+                    </td>
+                    <td>Константинопольский Константин Константинович</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

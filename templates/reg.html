@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body class="d-xl-flex justify-content-xl-center">
+    <div class="d-inline-flex" style="position: absolute;">
+        <h1 style="font-family: Ubuntu, sans-serif;color: rgb(255,255,255);">Здравствуйте, {{name}}!</h1>
+        <div style="margin-left: 373px;">
+            <h2 style="color: rgb(255,255,255);font-family: Ubuntu, sans-serif;">Это не Вы?</h2>
+            <a href="/login_reg">
+                <h2 style="color: rgb(255,255,255);font-family: Ubuntu, sans-serif;">Выйти</h2>
+            </a>
+        </div>
+    </div>
+    <div class="d-inline-flex" style="position: absolute;margin-top: 25%;"><a class="btn btn-primary border rounded-0" role="button" style="font-family: Ubuntu, sans-serif;font-size: 40px;width: 200%;opacity: 0.90;" href="/see"><i class="fa fa-eye" style="font-size: 40px;"></i>&nbsp; Получить информацию</a><a class="btn btn-primary border rounded-0"
+            role="button" style="font-family: Ubuntu, sans-serif;font-size: 40px;width: 200%;opacity: 0.90;" href="/add"><i class="fa fa-plus" style="font-size: 40px;"></i>&nbsp; Зарегестрировать (создать)</a></div><div><video autoplay="" loop="" muted="" width="100%" poster="https://www.tokkoro.com/picsup/5092740-earth-flower-pink-flower-water-lily.jpg" style="position: relative;z-index: -1;overflow: hidden;color: rgb(255,255,255);"><source src="{{url_for('static', filename='videoframe.mp4')}}" type="video/mp4"></video></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -16,16 +16,8 @@
         <div>
             <h1 class="display-4" style="font-family: Ubuntu, sans-serif;">Информация о пациенте</h1>
             <h5 style="font-family: Ubuntu, sans-serif;color: rgb(255,57,117);">Это частная информация, ее разглашение без согласия пациента карается законом.</h5>
-        </div><a href="/today"><button class="btn btn-primary" type="button" style="font-family: Ubuntu, sans-serif;font-size: 20px;margin-left: 290px;"><i class="fa fa-arrow-left"></i>&nbsp; Назад</button></a></div>
-    <div><button class="btn btn-outline-secondary" type="button" style="position: absolute;filter: blur(0px) brightness(100%) grayscale(0%) saturate(100%) sepia(0%);padding: 68px;padding-left: 80%;" disabled=""></button>
-        <h1 style="position: absolute;font-family: Ubuntu, sans-serif;">Сегодняшняя задача: {{work}}</h1>
-        <div class="d-inline-flex" style="position: absolute;padding-top: 87px;">
-            <form method="post"><input class="form-control" type="hidden" name="patient" value="1"><button class="btn btn-success" type="submit" style="font-family: Ubuntu, sans-serif;font-size: 25px;"><i class="fa fa-check" style="font-size: 30px;"></i>&nbsp; Пациент пришел<br></button></form>
-            <form
-                method="post"><input class="form-control" type="hidden" name="patient" value="0"><button class="btn btn-danger" type="submit" style="font-family: Ubuntu, sans-serif;font-size: 25px;margin-left: 15px;"><i class="fa fa-remove" style="font-size: 30px;"></i>&nbsp; Пациент не пришел<br></button></form>
-        </div>
-    </div>
-    <div style="padding-top: 146px;">
+        </div><a href="/reg"><button class="btn btn-primary" type="button" style="font-family: Ubuntu, sans-serif;font-size: 20px;margin-left: 290px;"><i class="fa fa-arrow-left"></i>&nbsp; Назад</button></a></div>
+    <div>
         <h1 class="display-4" style="position: absolute;">{{surname}}</h1>
         <h1 class="display-4" style="position: absolute;padding-top: 5%;">{{name}}</h1>
         <h1 style="position: absolute;padding-top: 12%;font-family: Ubuntu, sans-serif;">Палата: {{cab}}&nbsp;Состояние: {{status}}<br><br></h1>

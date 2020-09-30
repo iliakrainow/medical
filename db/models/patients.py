@@ -1,7 +1,7 @@
 def config(db):
     class patients(db.Model):
 
-        def __init__(self, surname, name, middle_name, docs, history, login, cab, status, sex, dr, medications, products):
+        def __init__(self, surname, name, middle_name, docs, history, login, cab, status, sex, dr, medications, products, additional):
             self.surname = surname
             self.name = name
             self.middle_name = middle_name
@@ -15,6 +15,7 @@ def config(db):
             self.dr = dr
             self.medications = medications
             self.products = products
+            self.additional = additional
         surname = db.Column(db.String(100))
         name = db.Column(db.String(100))
         middle_name = db.Column(db.String(100))
@@ -27,4 +28,5 @@ def config(db):
         dr = db.Column(db.String(10))
         medications = db.Column(db.String(1000))
         products = db.Column(db.String(1000))
+        additional = db.Column(db.String(1000))
     return patients
